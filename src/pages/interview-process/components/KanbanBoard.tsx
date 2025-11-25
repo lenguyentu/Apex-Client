@@ -84,6 +84,7 @@ const KanbanBoard = ({ processId, stages }: KanbanBoardProps) => {
   const addCandidateToStage = useInterviewProcessStore((state) => state.addCandidateToStage)
   const moveCandidate = useInterviewProcessStore((state) => state.moveCandidate)
   const removeCandidateFromStage = useInterviewProcessStore((state) => state.removeCandidateFromStage)
+  const updateCandidateNote = useInterviewProcessStore((state) => state.updateCandidateNote)
 
   // Lấy danh sách ứng viên đã có trong các stages
   const getCandidatesInStages = (): string[] => {
@@ -103,7 +104,8 @@ const KanbanBoard = ({ processId, stages }: KanbanBoardProps) => {
       position: candidate.applied_position,
       cv_link: candidate.cv_link,
       location: candidate.location,
-      address: candidate.address
+      address: candidate.address,
+      note: ''
     }
 
     addCandidateToStage(processId, stageId, candidateInStage)
@@ -259,6 +261,16 @@ const KanbanBoard = ({ processId, stages }: KanbanBoardProps) => {
                            >
                              CV
                            </a>
+                        </div>
+
+                        <div className="mt-3">
+                          <textarea
+                            value={candidate.note ?? ''}
+                            onChange={(e) => updateCandidateNote(processId, stage.id, candidate.id, e.target.value)}
+                            rows={2}
+                            placeholder="Thêm ghi chú đánh giá..."
+                            className="w-full text-xs text-gray-700 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-blue-200 focus:border-blue-300 transition-colors"
+                          />
                         </div>
                       </div>
                     )
