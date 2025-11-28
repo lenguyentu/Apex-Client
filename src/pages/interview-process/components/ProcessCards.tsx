@@ -1,6 +1,10 @@
 import { useInterviewProcessStore } from '../../../store/useInterviewProcessStore'
 
-const ProcessCards = () => {
+interface ProcessCardsProps {
+  onCreateClick?: () => void
+}
+
+const ProcessCards = ({ onCreateClick }: ProcessCardsProps) => {
   const processes = useInterviewProcessStore((state) => state.processes)
   const selectProcess = useInterviewProcessStore((state) => state.selectProcess)
 
@@ -18,6 +22,7 @@ const ProcessCards = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      {/* Process Cards */}
       {processes.map((process) => {
         // Giả lập tính toán tiến độ
         const progress = Math.floor(Math.random() * 60) + 20; 
@@ -71,6 +76,20 @@ const ProcessCards = () => {
           </div>
         </div>
       )})}
+      
+      {/* Create New Process Card - ở cuối */}
+      <div
+        onClick={onCreateClick}
+        className="group bg-white rounded-xl border-2 border-dashed border-gray-300 p-6 cursor-pointer hover:border-blue-400 hover:bg-blue-50/30 transition-all duration-300 flex flex-col items-center justify-center min-h-[280px]"
+      >
+        <div className="w-16 h-16 rounded-full bg-gray-100 group-hover:bg-blue-100 flex items-center justify-center mb-4 transition-colors">
+          <svg className="w-8 h-8 text-gray-400 group-hover:text-blue-600 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          </svg>
+        </div>
+        <h3 className="text-lg font-semibold text-gray-700 group-hover:text-blue-700 transition-colors mb-2">Tạo quy trình mới</h3>
+        <p className="text-sm text-gray-500 text-center">Bắt đầu tạo quy trình tuyển dụng mới</p>
+      </div>
     </div>
   )
 }

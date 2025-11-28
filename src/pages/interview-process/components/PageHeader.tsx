@@ -15,11 +15,7 @@ const PageHeader = ({ onCreateClick }: PageHeaderProps) => {
   }
 
   return (
-    <div className="flex items-center justify-between relative z-10">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">Quy trình phỏng vấn</h1>
-        <p className="text-gray-600">Tạo và quản lý quy trình phỏng vấn cho các vị trí</p>
-      </div>
+    <div className="flex items-center justify-end relative z-10">
       <button
         type="button"
         onClick={handleClick}

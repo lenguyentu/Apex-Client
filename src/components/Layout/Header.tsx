@@ -1,7 +1,59 @@
 import { useState, useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import { useInterviewProcessStore } from '../../store/useInterviewProcessStore'
+import { useSidebarStore } from '../../store/useSidebarStore'
 
 const Header = () => {
   const [showDropdown, setShowDropdown] = useState(false)
+  const location = useLocation()
+  const selectedProcess = useInterviewProcessStore((state) => state.selectedProcess)
+  const selectProcess = useInterviewProcessStore((state) => state.selectProcess)
+  const isCollapsed = useSidebarStore((state) => state.isCollapsed)
+
+  // Map route paths to page titles
+  const getPageTitle = () => {
+    if (selectedProcess) {
+      return {
+        title: selectedProcess.name,
+        description: selectedProcess.description || 'Quản lý quy trình tuyển dụng và theo dõi ứng viên.',
+        showBadge: true
+      }
+    }
+
+    const pathToTitle: Record<string, { title: string; description: string }> = {
+      '/': {
+        title: 'Dashboard',
+        description: 'Tổng quan về hoạt động tuyển dụng của công ty'
+      },
+      '/jobs': {
+        title: 'Quản lý Jobs',
+        description: 'Quản lý và theo dõi các vị trí tuyển dụng'
+      },
+      '/interview-process': {
+        title: 'Quy trình phỏng vấn',
+        description: 'Tạo và quản lý quy trình phỏng vấn cho các vị trí'
+      },
+      '/candidates': {
+        title: 'Ứng viên',
+        description: 'Quản lý thông tin và hồ sơ ứng viên'
+      },
+      '/evaluations': {
+        title: 'Đánh giá ứng viên',
+        description: 'Xem và quản lý đánh giá ứng viên'
+      },
+      '/settings': {
+        title: 'Cài đặt',
+        description: 'Cấu hình hệ thống và tài khoản'
+      }
+    }
+
+    return pathToTitle[location.pathname] || {
+      title: 'APEX',
+      description: 'Hệ thống quản lý tuyển dụng'
+    }
+  }
+
+  const pageInfo = getPageTitle()
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -21,12 +73,27 @@ const Header = () => {
   }, [showDropdown])
 
   return (
-    <header className="bg-white border-b border-gray-200 h-20 flex items-center justify-between px-8 fixed top-0 left-64 right-0 z-50">
-      {/* Logo and Greeting */}
+    <header className={`bg-white border-b border-gray-200 h-20 flex items-center justify-between px-8 fixed top-0 ${isCollapsed ? 'left-20' : 'left-64'} right-0 z-50 transition-all duration-300`}>
+      {/* Page Title */}
       <div className="flex items-center gap-6">
-        <div className="hidden md:block">
-          <h2 className="text-lg font-semibold text-gray-900">Chào mừng trở lại, Lê Nguyên</h2>
-          <p className="text-sm text-gray-500">Đây là những gì đang diễn ra với công ty của bạn hôm nay</p>
+        {selectedProcess && (
+          <button
+            onClick={() => selectProcess('')}
+            className="group flex items-center justify-center w-10 h-10 rounded-full hover:bg-gray-100 transition-all text-gray-500 hover:text-gray-800"
+            title="Quay lại danh sách"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+          </button>
+        )}
+        <div className="flex items-center gap-3">
+          <h2 className="text-lg font-bold text-gray-900">{pageInfo.title}</h2>
+          {selectedProcess && (
+            <span className="px-2.5 py-1 rounded-md bg-blue-100 text-blue-700 text-xs font-bold uppercase tracking-wider">
+              Active
+            </span>
+          )}
         </div>
       </div>
 

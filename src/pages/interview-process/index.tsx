@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react'
 import { useInterviewProcessStore } from '../../store/useInterviewProcessStore'
-import PageHeader from './components/PageHeader'
 import ProcessCards from './components/ProcessCards'
 import ProcessDetail from './components/ProcessDetail'
 import CreateProcessModal from './components/CreateProcessModal'
@@ -18,12 +17,11 @@ const InterviewProcess = () => {
     return <ProcessDetail />
   }
 
-  // Logic: Nếu ở Dashboard -> Render Header + Danh sách
+  // Logic: Nếu ở Dashboard -> Render Danh sách
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
-      <PageHeader onCreateClick={handleCreateClick} />
       <CreateProcessModal isOpen={showCreateModal} onClose={() => setShowCreateModal(false)} />
-      <ProcessCards />
+      <ProcessCards onCreateClick={handleCreateClick} />
     </div>
   )
 }
