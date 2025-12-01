@@ -8,7 +8,7 @@ interface ProcessStatusSelectProps {
 }
 
 const ProcessStatusSelect: React.FC<ProcessStatusSelectProps> = ({
-  candidateId,
+  candidateId: _candidateId,
   currentStatus,
   onStatusChange,
   disabled = false
