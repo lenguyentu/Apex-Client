@@ -35,14 +35,6 @@ const CandidatesTable = ({ candidates }: CandidatesTableProps) => {
     }
   }
 
-  const getInitials = (name: string) => {
-    const words = name.trim().split(/\s+/)
-    if (words.length >= 2) {
-      return (words[0][0] + words[words.length - 1][0]).toUpperCase()
-    }
-    return name.substring(0, 2).toUpperCase()
-  }
-
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
       <div className="overflow-x-auto">
