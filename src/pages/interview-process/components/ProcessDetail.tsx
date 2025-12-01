@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useInterviewProcessStore } from '../../../store/useInterviewProcessStore'
+import StageManager from './StageManager'
 import KanbanBoard from './KanbanBoard'
 import ListView from './ListView'
 
@@ -8,6 +9,7 @@ type ViewMode = 'board' | 'list'
 const ProcessDetail = () => {
   const [viewMode, setViewMode] = useState<ViewMode>('board')
   const selectedProcess = useInterviewProcessStore((state) => state.selectedProcess)
+  const selectProcess = useInterviewProcessStore((state) => state.selectProcess)
 
   if (!selectedProcess) return null
 
